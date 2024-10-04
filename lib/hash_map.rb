@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class HashMap
-  attr_accessor :bucket, :capacity
+  attr_reader :length, :bucket, :capacity
 
   def initialize
     @capacity = 16
     @bucket = Array.new(capacity) { [] }
+    @length = 0
   end
 
   def set(key, value)
@@ -19,6 +20,7 @@ class HashMap
     end
 
     bucket[index] << [key, value]
+    @length += 1
   end
 
   def get(key)
@@ -61,6 +63,7 @@ class HashMap
     return nil unless index_to_be_removed # Return nil if key not found
 
     bucket[index].delete_at(index_to_be_removed) # Remove the pair
+    @length -= 1
     removed_value # Return the removed value
   end
 
