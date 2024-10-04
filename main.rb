@@ -24,6 +24,8 @@ p test.has?('lion')
 p test.remove('lion')
 p test.bucket
 p test.length
-p test.keys
-p test.values
-p test.entries
+# p test.keys
+# p test.values
+# p test.entries
+test.set('moon', 'silver')
+p test.bucket

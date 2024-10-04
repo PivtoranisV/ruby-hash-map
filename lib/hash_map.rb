@@ -3,6 +3,8 @@
 class HashMap
   attr_reader :length, :bucket, :capacity
 
+  LOAD_FACTOR = 0.75
+
   def initialize
     @capacity = 16
     @bucket = Array.new(capacity) { [] }
@@ -10,17 +12,21 @@ class HashMap
   end
 
   def set(key, value)
-    index = get_bucket_index(key)
-    #  TODO grow buckets size
+    if length >= capacity * LOAD_FACTOR
+      remap
+      set(key, value)
+    else
+      index = get_bucket_index(key)
 
-    bucket[index].each do |pair|
-      next unless pair[0] == key
+      bucket[index].each do |pair|
+        next unless pair[0] == key
 
-      return pair[1] = value
+        return pair[1] = value
+      end
+
+      bucket[index] << [key, value]
+      @length += 1
     end
-
-    bucket[index] << [key, value]
-    @length += 1
   end
 
   def get(key)
@@ -49,22 +55,13 @@ class HashMap
     index = get_bucket_index(key)
     return nil if bucket[index].empty? # Early return if bucket is empty
 
-    index_to_be_removed = nil
-    removed_value = nil
-
     bucket[index].each_with_index do |pair, idx|
-      next unless pair[0] == key
-
-      index_to_be_removed = idx
-      removed_value = pair[1]
-      break
+      if pair[0] == key
+        @length -= 1
+        return bucket[index].delete_at(idx) # Return the removed value
+      end
     end
-
-    return nil unless index_to_be_removed # Return nil if key not found
-
-    bucket[index].delete_at(index_to_be_removed) # Remove the pair
-    @length -= 1
-    removed_value # Return the removed value
+    nil # Return nil if key not found
   end
 
   def clear
@@ -115,5 +112,16 @@ class HashMap
     key.each_char { |char| hash_code = prime_number * hash_code + char.ord }
 
     hash_code
+  end
+
+  def remap
+    @capacity *= 2
+    remapped_bucket = Array.new(capacity) { [] }
+    entries.each do |entry|
+      index = get_bucket_index(entry[0])
+
+      remapped_bucket[index] << entry
+    end
+    @bucket = remapped_bucket
   end
 end
