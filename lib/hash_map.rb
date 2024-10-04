@@ -67,6 +67,11 @@ class HashMap
     removed_value # Return the removed value
   end
 
+  def clear
+    @bucket = Array.new(capacity) { [] }
+    @length = 0
+  end
+
   private
 
   def get_bucket_index(key)
