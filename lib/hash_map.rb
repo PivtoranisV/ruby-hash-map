@@ -32,6 +32,17 @@ class HashMap
     nil
   end
 
+  def has?(key)
+    index = hash(key) % bucket.length
+
+    bucket[index].each do |pair|
+      next unless pair[0] == key
+
+      return true
+    end
+    false
+  end
+
   private
 
   def hash(key)
