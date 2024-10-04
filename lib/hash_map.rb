@@ -1,6 +1,28 @@
 # frozen_string_literal: true
 
 class HashMap
+  attr_accessor :bucket, :capacity
+
+  def initialize
+    @capacity = 16
+    @bucket = Array.new(capacity) { [] }
+  end
+
+  def set(key, value)
+    index = hash(key) % bucket.length
+    #  TODO grow buckets size
+
+    bucket[index].each do |pair|
+      next unless pair[0] == key
+
+      return pair[1] = value
+    end
+
+    bucket[index] << [key, value]
+  end
+
+  private
+
   def hash(key)
     hash_code = 0
     prime_number = 31
