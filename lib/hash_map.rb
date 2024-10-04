@@ -21,6 +21,17 @@ class HashMap
     bucket[index] << [key, value]
   end
 
+  def get(key)
+    index = hash(key) % bucket.length
+
+    bucket[index].each do |pair|
+      next unless pair[0] == key
+
+      return pair[1]
+    end
+    nil
+  end
+
   private
 
   def hash(key)

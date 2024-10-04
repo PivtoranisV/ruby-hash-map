@@ -19,3 +19,5 @@ test.set('lion', 'golden')
 test.set('moon', 'silver')
 
 p test.bucket
+
+p test.get('apple')
