@@ -24,4 +24,5 @@ p test.has?('lion')
 p test.remove('lion')
 p test.bucket
 p test.length
-p test.clear
+p test.keys
+p test.values

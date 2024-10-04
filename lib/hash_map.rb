@@ -72,6 +72,26 @@ class HashMap
     @length = 0
   end
 
+  def keys
+    keys = []
+    bucket.each do |entries|
+      entries.each do |pair|
+        keys << pair[0]
+      end
+    end
+    keys
+  end
+
+  def values
+    values = []
+    bucket.each do |entries|
+      entries.each do |pair|
+        values << pair[1]
+      end
+    end
+    values
+  end
+
   private
 
   def get_bucket_index(key)
