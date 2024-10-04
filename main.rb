@@ -26,3 +26,4 @@ p test.bucket
 p test.length
 p test.keys
 p test.values
+p test.entries
