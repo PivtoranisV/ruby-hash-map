@@ -9,7 +9,7 @@ class HashMap
   end
 
   def set(key, value)
-    index = hash(key) % bucket.length
+    index = get_bucket_index(key)
     #  TODO grow buckets size
 
     bucket[index].each do |pair|
@@ -22,7 +22,7 @@ class HashMap
   end
 
   def get(key)
-    index = hash(key) % bucket.length
+    index = get_bucket_index(key)
 
     bucket[index].each do |pair|
       next unless pair[0] == key
@@ -33,7 +33,7 @@ class HashMap
   end
 
   def has?(key)
-    index = hash(key) % bucket.length
+    index = get_bucket_index(key)
 
     bucket[index].each do |pair|
       next unless pair[0] == key
@@ -44,6 +44,10 @@ class HashMap
   end
 
   private
+
+  def get_bucket_index(key)
+    hash(key) % capacity
+  end
 
   def hash(key)
     hash_code = 0
