@@ -21,3 +21,5 @@ p test.bucket
 
 p test.get('apple')
 p test.has?('lion')
+p test.remove('lion')
+p test.bucket

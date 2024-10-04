@@ -43,6 +43,27 @@ class HashMap
     false
   end
 
+  def remove(key)
+    index = get_bucket_index(key)
+    return nil if bucket[index].empty? # Early return if bucket is empty
+
+    index_to_be_removed = nil
+    removed_value = nil
+
+    bucket[index].each_with_index do |pair, idx|
+      next unless pair[0] == key
+
+      index_to_be_removed = idx
+      removed_value = pair[1]
+      break
+    end
+
+    return nil unless index_to_be_removed # Return nil if key not found
+
+    bucket[index].delete_at(index_to_be_removed) # Remove the pair
+    removed_value # Return the removed value
+  end
+
   private
 
   def get_bucket_index(key)
